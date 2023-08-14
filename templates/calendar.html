@@ -9,6 +9,8 @@ https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js
 
 <body>
     <h1>Calendrier interactif</h1>
+
+    <a href ="add"'>Add</a>
     <div id="calendar"></div>
 
     <script>
@@ -22,12 +24,13 @@ https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js
                     body: JSON.stringify(events)
                 })
                 .then(response => response.json())
+
                 .then(data => {
+                    console.log(data);
                     console.log('Événements mis à jour sur le serveur');
                 });
             }
 
-            // Récupérer les événements du serveur Flask
             fetch('/events')
                 .then(response => response.json())
                 .then(data => {
@@ -41,7 +44,40 @@ https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js
                         eventResize: function(info) {
                             saveEvents(calendar.getEvents());
                         },
-                        initialView: 'dayGridWeek'
+                        initialView: 'dayGridWeek',
+                        locale:'fr',
+                        headerToolbar: {
+                            center: 'timeGridTwoDay,timeGridFourDay,Default,timeGridEightDay,timeGridSixtyDay' // buttons for switching between views
+                        },
+                        views: {
+                            timeGridTwoDay: {
+                            type: 'timeGrid',
+                            duration: { days: 2 },
+                            buttonText: '2 day'
+                            },
+                            timeGridFourDay: {
+                            type: 'timeGrid',
+                            duration: { days: 4 },
+                            buttonText: '4 day'
+                            },
+                            timeGridEightDay: {
+                            type: 'timeGrid',
+                            duration: { days: 8 },
+                            buttonText: '8 day'
+                            },
+                            timeGridSixtyDay: {
+                            type: 'timeGrid',
+                            duration: { days: 16 },
+                            buttonText: '16 day'
+                            },
+                            Default: {
+                            type: 'timeGrid',
+                            duration: { days: 7 },
+                            buttonText: 'Default'
+                            }
+                            
+                            
+                        }
                     });
 
                     calendar.render();
